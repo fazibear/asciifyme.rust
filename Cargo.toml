@@ -1,0 +1,38 @@
+[package]
+name = "asciifyme"
+version = "0.1.0"
+authors = ["Michał Kalbarczyk <fazibear@gmail.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies.wasm-bindgen]
+version = "0.2.63"
+
+[dependencies.web-sys]
+version = "0.3.4"
+features = [
+  'Document',
+  'Element',
+  'GetUserMediaRequest',
+  'HtmlCanvasElement',
+  'HtmlMediaElement',
+  'HtmlVideoElement',
+  'HtmlElement',
+  'MediaStreamConstraints',
+  'MediaDevices',
+  'Navigator',
+  'Node',
+  'Window',
+  'MediaStream',
+  'CanvasRenderingContext2d',
+  'console',
+]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3.13"
+
+[profile.release]
+# Tell `rustc` to optimize for small code size.
+opt-level = "s"
