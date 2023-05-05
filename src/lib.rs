@@ -1,6 +1,6 @@
-use wasm_bindgen::prelude::*;
 use std::cell::RefCell;
 use std::rc::Rc;
+use wasm_bindgen::prelude::*;
 
 mod canvas;
 mod web_cam;

@@ -1,21 +1,14 @@
 use wasm_bindgen::prelude::*;
-use web_sys::{
-    HtmlCanvasElement,
-    CanvasRenderingContext2d,
-    window
-};
+use web_sys::{window, CanvasRenderingContext2d, HtmlCanvasElement};
 
 #[derive(Debug)]
 pub struct Canvas {
-    pub ctx: CanvasRenderingContext2d
+    pub ctx: CanvasRenderingContext2d,
 }
 
 impl Canvas {
     pub fn new() -> Canvas {
-        let document = window()
-            .unwrap()
-            .document()
-            .unwrap();
+        let document = window().unwrap().document().unwrap();
 
         let ctx = document
             .create_element("canvas")
@@ -28,8 +21,6 @@ impl Canvas {
             .dyn_into::<CanvasRenderingContext2d>()
             .unwrap();
 
-        Canvas {
-            ctx
-        }
+        Canvas { ctx }
     }
 }

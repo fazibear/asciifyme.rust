@@ -1,17 +1,14 @@
 use wasm_bindgen::prelude::*;
-use web_sys::{HtmlVideoElement, window};
+use web_sys::{window, HtmlVideoElement};
 
 #[derive(Debug)]
 pub struct WebCam {
-    pub video: HtmlVideoElement
+    pub video: HtmlVideoElement,
 }
 
 impl WebCam {
-    pub fn new() -> Self  {
-        let document = window()
-            .unwrap()
-            .document()
-            .unwrap();
+    pub fn new() -> Self {
+        let document = window().unwrap().document().unwrap();
 
         let video = document
             .create_element("video")
@@ -19,9 +16,7 @@ impl WebCam {
             .dyn_into::<web_sys::HtmlVideoElement>()
             .unwrap();
 
-        Self {
-            video
-        }
+        Self { video }
     }
 
     pub fn setup(&self) {
@@ -35,7 +30,12 @@ impl WebCam {
 
         let on_stream = Closure::wrap(Box::new(move |stream: JsValue| {
             video.set_src_object(Some(&stream.into()));
-            let _ = video.add_event_listener_with_callback("canplaythrough", can_play.as_ref().unchecked_ref()).expect("should add event listener");
+            let _ = video
+                .add_event_listener_with_callback(
+                    "canplaythrough",
+                    can_play.as_ref().unchecked_ref(),
+                )
+                .expect("should add event listener");
         }) as Box<dyn FnMut(_)>);
 
         let mut constraints = web_sys::MediaStreamConstraints::new();
