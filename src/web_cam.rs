@@ -20,7 +20,7 @@ impl WebCam {
             .unwrap();
 
         Self {
-            video: video
+            video
         }
     }
 
@@ -35,7 +35,7 @@ impl WebCam {
 
         let on_stream = Closure::wrap(Box::new(move |stream: JsValue| {
             video.set_src_object(Some(&stream.into()));
-            let _ = video.add_event_listener_with_callback("canplaythrough", can_play.as_ref().unchecked_ref());
+            let _ = video.add_event_listener_with_callback("canplaythrough", can_play.as_ref().unchecked_ref()).expect("should add event listener");
         }) as Box<dyn FnMut(_)>);
 
         let mut constraints = web_sys::MediaStreamConstraints::new();
@@ -49,6 +49,5 @@ impl WebCam {
             .get_user_media_with_constraints(&constraints)
             .unwrap()
             .then(&on_stream);
-
     }
 }
