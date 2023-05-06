@@ -27,6 +27,7 @@ features = [
   'Window',
   'MediaStream',
   'CanvasRenderingContext2d',
+  'ImageData',
   'console',
 ]
 
