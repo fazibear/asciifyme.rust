@@ -1,18 +1,18 @@
 use wasm_bindgen::{prelude::*, Clamped};
 use web_sys::{window, CanvasRenderingContext2d, HtmlCanvasElement, HtmlVideoElement};
 
+use crate::{CANVAS_WIDTH, CANVAS_HEIGHT};
+
 #[derive(Debug)]
 pub struct Canvas {
-	pub width: f64,
-	pub height: f64,
-    pub ctx: CanvasRenderingContext2d,
+    pub context: CanvasRenderingContext2d,
 }
 
 impl Canvas {
-    pub fn new(width: f64, height: f64) -> Self {
+    pub fn new() -> Self {
         let document = window().unwrap().document().unwrap();
 
-        let ctx = document
+        let context = document
             .create_element("canvas")
             .unwrap()
             .dyn_into::<HtmlCanvasElement>()
@@ -24,23 +24,21 @@ impl Canvas {
             .unwrap();
 
         Self {
-            width,
-            height,
-            ctx
+            context
         }
     }
 
     pub fn draw_image(self: &Self, video: &HtmlVideoElement) {
 	    self
-            .ctx
-            .draw_image_with_html_video_element(video, self.height, self.width)
+            .context
+            .draw_image_with_html_video_element(video, CANVAS_WIDTH as f64, CANVAS_HEIGHT as f64)
             .unwrap();
     }
 
     pub fn get_image_data(self: &Self) -> Clamped<Vec<u8>>{
         self
-            .ctx
-            .get_image_data(0.0, 0.0, self.width, self.height)
+            .context
+            .get_image_data(0.0, 0.0, CANVAS_HEIGHT as f64, CANVAS_WIDTH as f64)
             .unwrap()
             .data()
     }

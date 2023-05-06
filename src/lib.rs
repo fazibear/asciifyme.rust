@@ -2,6 +2,9 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 
+const CANVAS_WIDTH: u16 = 80;
+const CANVAS_HEIGHT: u16 = 40;
+
 mod asciifyier;
 mod canvas;
 mod web_cam;
@@ -15,9 +18,8 @@ fn request_animation_frame(f: &Closure<dyn FnMut()>) {
 
 #[wasm_bindgen(start)]
 fn run() -> Result<(), JsValue> {
-    let context = canvas::Canvas::new(80.0, 40.0);
+    let context = canvas::Canvas::new();
     let web_cam = web_cam::WebCam::new();
-    let asciifyier = asciifyier::Asciifyier::new();
 
     web_cam.setup();
 
@@ -25,10 +27,9 @@ fn run() -> Result<(), JsValue> {
     let g = f.clone();
 
     *g.borrow_mut() = Some(Closure::new(move || {
-
         context.draw_image(&web_cam.video);
         let data = context.get_image_data();
-        let output = asciifyier.asciify(&data);
+        let output = asciifyier::process(&data);
 
         web_sys::console::log_1(&output.into());
 
