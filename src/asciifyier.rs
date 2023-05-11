@@ -8,8 +8,8 @@ const fn get_char(index: usize) -> char {
 pub fn process(data: &Clamped<Vec<u8>>) -> String {
     let mut output = String::new();
 
-    for y in 1..40 {
-        for x in 1..80 {
+    for y in 0..40 {
+        for x in 0..80 {
             let offset = (y * 80 + x) * 4;
 
             let red = data[offset];
