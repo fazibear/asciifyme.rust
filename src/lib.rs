@@ -39,22 +39,24 @@ async fn run() -> Result<(), JsValue> {
         .dyn_into::<HtmlElement>()
         .unwrap();
 
-    web_cam.setup().await.expect("webcam setup failed");
+    if let Ok(()) = web_cam.setup().await {
+        let f = Rc::new(RefCell::new(None));
+        let g = f.clone();
 
-    let f = Rc::new(RefCell::new(None));
-    let g = f.clone();
+        *g.borrow_mut() = Some(Closure::new(move || {
+            request_animation_frame(f.borrow().as_ref().unwrap());
 
-    *g.borrow_mut() = Some(Closure::new(move || {
-        request_animation_frame(f.borrow().as_ref().unwrap());
+            context.draw_image(&web_cam.video);
+            let data = context.get_image_data();
+            let output = asciifyier::process(&data);
 
-        context.draw_image(&web_cam.video);
-        let data = context.get_image_data();
-        let output = asciifyier::process(&data);
+            pre.set_inner_text(&output);
+        }));
 
-        pre.set_inner_text(&output);
-    }));
-
-    request_animation_frame(g.borrow().as_ref().unwrap());
+        request_animation_frame(g.borrow().as_ref().unwrap());
+    } else {
+        pre.set_inner_text("Camera not found!");
+    };
 
     Ok(())
 }
