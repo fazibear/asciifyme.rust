@@ -1,11 +1,35 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
-  </head>
-  <body>
+    <title>asscify-me</title>
+    <style>
+      body{background-color:#000}pre{text-align:center}header{color:#daa520;font-size:18px;font-weight:700;text-shadow:0 0 3px gold}section{margin-top:30px;color:#32cd32;text-shadow:0 0 15px #0f0;font-size:14px}footer,footer a{margin-top:30px;color:red;text-shadow:0 0 15px tomato;font-size:14px}
+    </style>
     <script src='pkg/asciifyme.js'></script>
     <script>
         wasm_bindgen('./pkg/asciifyme_bg.wasm');
     </script>
+  </head>
+  <body>
+    <div>
+      <header>
+        <pre>
+   _____                .__.__  _____         _____        ._.
+  /  _  \   ______ ____ |__|__|/ ____\__.__. /     \   ____| |
+ /  /_\  \ /  ___// ___\|  |  \   __&lt;   |  |/  \ /  \_/ __ \ |
+/    |    \\___ \\  \___|  |  ||  |  \___  /    Y    \  ___/\|
+\____|__  /____  &gt;\___  &gt;__|__||__|  / ____\____|__  /\___  &gt;_
+        \/     \/     \/             \/            \/     \/\/
+        </pre>
+        <pre>Make sure you're using https://, grant permission to your cam, and enjoy!</pre>
+      </header>
+      <section>
+        <pre id="pre"></pre>
+      </section>
+      <footer>
+        <pre>Made with RUST by <a href="https://github.com/fazibear">fazibear</a></pre>
+        <pre>Source available on <a href="https://github.com/fazibear/asciifyme.rust">github</a>. Enjoy!</pre>
+      </footer>
+    </div>
   </body>
 </html>

@@ -15,11 +15,16 @@ impl Canvas {
         let mut context_attributes = web_sys::ContextAttributes2d::new();
         context_attributes.will_read_frequently(true);
 
-        let context = document
+        let canvas = document
             .create_element("canvas")
             .unwrap()
             .dyn_into::<HtmlCanvasElement>()
-            .unwrap()
+            .unwrap();
+
+        canvas.set_width(CANVAS_WIDTH.into());
+        canvas.set_height(CANVAS_HEIGHT.into());
+
+        let context = canvas
             .get_context_with_context_options("2d", &context_attributes)
             .unwrap()
             .unwrap()
@@ -31,13 +36,19 @@ impl Canvas {
 
     pub fn draw_image(self: &Self, video: &HtmlVideoElement) {
         self.context
-            .draw_image_with_html_video_element(video, CANVAS_WIDTH as f64, CANVAS_HEIGHT as f64)
+            .draw_image_with_html_video_element_and_dw_and_dh(
+                video,
+                0.0,
+                0.0,
+                CANVAS_WIDTH as f64,
+                CANVAS_HEIGHT as f64,
+            )
             .unwrap();
     }
 
     pub fn get_image_data(self: &Self) -> Clamped<Vec<u8>> {
         self.context
-            .get_image_data(0.0, 0.0, CANVAS_HEIGHT as f64, CANVAS_WIDTH as f64)
+            .get_image_data(0.0, 0.0, CANVAS_WIDTH as f64, CANVAS_HEIGHT as f64)
             .unwrap()
             .data()
     }
