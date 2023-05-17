@@ -1,14 +1,11 @@
 extern crate console_error_panic_hook;
 
-#[macro_use]
-extern crate log;
-
 mod asciifyier;
 mod canvas;
+mod utils;
 mod web_cam;
 
 use std::cell::RefCell;
-use std::panic;
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use web_sys::{window, HtmlElement};
@@ -25,7 +22,7 @@ fn request_animation_frame(f: &Closure<dyn FnMut()>) {
 
 #[wasm_bindgen(start)]
 async fn run() -> Result<(), JsValue> {
-    panic::set_hook(Box::new(console_error_panic_hook::hook));
+    utils::set_panic_hook();
     console_log::init().expect("error initializing log");
 
     let context = canvas::Canvas::new();
